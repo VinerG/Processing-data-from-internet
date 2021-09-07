@@ -87,15 +87,15 @@ def parse_superjob_page(url):
     return data
 
 
-pp = pprint.PrettyPrinter(indent=4)
-
 all_data = []
 
-print("Request www.hh.ru api", end="")
+# Retrive data from www.hh.ru by api
+print("Request www.hh.ru (API)", end="")
 all_data += request_hh_api("https://api.hh.ru/vacancies?text=Python&area=1&per_page=100")
 print(". Found {} vacancies.".format(len(all_data)))
 print()
 
+# Scraping data from http site www.hh.ru
 page_count = 5
 for i in range(1, page_count + 1):
     print("Parse www.hh.ru page number {} of {}".format(i, page_count), end="")
@@ -104,6 +104,7 @@ for i in range(1, page_count + 1):
     all_data += new_data
 print()
 
+# Scraping data from http site www.superjob.ru
 for i in range(1, page_count + 1):
     print("Parse www.superjob.ru page number {} of {}".format(i, page_count), end="")
     new_data = parse_superjob_page("https://www.superjob.ru/vacancy/search/?keywords=python&geo%5Bt%5D%5B0%5D=4&page={}".format(i))
@@ -111,5 +112,6 @@ for i in range(1, page_count + 1):
     all_data += new_data
 print()
 
+pp = pprint.PrettyPrinter(indent=4)
 pp.pprint(all_data)
 print("\nTotal count: {}".format(len(all_data)))
